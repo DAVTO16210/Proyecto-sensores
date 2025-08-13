@@ -1,11 +1,17 @@
-#include <Arduino.h>
-#include <WiFi.h>
-#include <time.h>
-#include <HTTPClient.h>
+// estas son todas las bibliotecas utilizadas en el codigo 
+#include <Arduino.h>/* YO DAVID supongo que sirve para la extension de visual 
+para tanto controlart y que tenga la sintaxis del ide de arduino */
+#include <WiFi.h> /* lo mismo solo que en este caso se utilizaria para la transmision de datos y en general
+para no altera el codigo base en cuestion de internet*/
+#include <time.h>/*libreria basica de tiempo que se empleara para yo supongo igual, el registro de las descargas*/
+#include <HTTPClient.h>/*libreria que a mi entender y una rapida investigacion funciona para los protocolos http
+para paginas web, ignoro a profundidad como se maneja bien pero para eso sirve*/
 #include <string.h>
-#include <iostream>
-#include <list>
-#include <map>
+/*libreria basica para cadenas y textos grandes*/
+#include <iostream>/*libreria basica para "proyectos grandes" en c*/
+#include <list>/*segun investigacion rapida es para listas dobles, curioso que sirva para eso no la conocia */
+#include <map>/*por lo que entendi sirve para darle como claves especificas a uno y solo un valor como las llaves de tu cassa
+solo tu con tus llaves puedes abrir tu casa*/
 
 // Multitaskiing
 TaskHandle_t Task0;
@@ -14,10 +20,13 @@ TaskHandle_t Task0;
 const char *ntpServer = "pool.ntp.org";
 const long gmtOffset_sec = -6 * 3600; // Ajusta según tu zona horaria
 const int daylightOffset_sec = 0;
+/*esto es para el servidor pero si ignoro bien cabron a ciencia cierta lo que se esta haciendo aqui, pero por lo que se ve
+creo que solo ajusta lo que es la hora del servidor y eso se ajusta segun el horario*/
 
 // WiFi
 /* const char *ssid = "Opticom";
-const char *passwd = "%L0$.ErR0re$.$oN.d3.Lui$%"; */
+const char *passwd = "%L0$.ErR0re$.$oN.d3.Lui$%"; */ 
+/*esta buena la contraseña al fin y al cabo es el lider*/
 
 //! CAMBIAR POR LA RED Y CONTRASEÑA
 /* const char *ssid = "Opticom_EXT2G";
@@ -25,9 +34,13 @@ const char *passwd = "%L0$.ErR0re$.$oN.d3.Lui$%"; */
 const char *ssid = ".:PC Puma FI:.";
 const char *passwd = "";
 const char *serverName = "https://script.google.com/macros/s/AKfycbxqPtzQlKgmTssQis5jEaXHgqINdUAlmMHyxOrEvKtQyAgTRCFThnJOXAfWq2djfV0/exec";
+/*si bien entendi esto es la contraseña del server peeeero es como la liga al forms que hicieron en un principio 
+para que se fuera registrando los valores junto con el wifi que se usa*/
 
 //! UNICAMENTE CAMBIAR POR EL SERVIDOR QUE SE PONGA NUEVO
 const char *serverAndre = "http://10.66.66.178:8080/guardar_datos.php";
+/*esto si es como un protocolo o ya como tal la direccion de lo que es el optiserver, con el agregado de que aqui
+iria la direccion del puerto que nos dieron */
 
 // Tiempo de bandera
 int flag_time = 200000; // El tiempo varía dependiendo de cuántos sensores se tengan, si son muchos, disminuir el tiempo
@@ -39,6 +52,8 @@ struct Sensor
 	String type;
 	int bandera;
 };
+
+/*estructura que controla a los sensores*/
 
 // Sensores
 std::map<int, Sensor> sensores;
